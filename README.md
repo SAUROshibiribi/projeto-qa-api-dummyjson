@@ -42,15 +42,8 @@ O parâmetro no final evita enviar os resultados desta execução ao Postman Clo
 Os arquivos locais da coleção estão incluídos em postman/collections/Projeto QA API - DummyJSON. A coleção usa o formato YAML nativo do Postman Collection v3 e contém quatro arquivos de requisição e a pasta .resources. Mantenha todos esses arquivos juntos.
 
 ## Evidências
-
-A captura inicial do Collection Runner foi salva na pasta do projeto, conforme informado pelo autor. A nova execução foi realizada pelo Postman CLI e seus resultados estão registrados acima.
+A captura do Collection Runner foi salva localmente, conforme informado, mas não está incluída no commit atual. Os resultados também foram reproduzidos pelo Postman CLI e estão documentados acima.
 
 ## Limites
 
 Este exercício cobre validações básicas de respostas HTTP e JSON nos quatro cenários descritos. Os resultados registrados são de execuções específicas; uma nova execução pode variar se a API estiver indisponível ou mudar.
-
-## Próximos passos
-
-1. Revisar a estrutura do projeto e os arquivos de evidência.
-2. Publicar o repositório no GitHub.
-3. Adicionar o link ao currículo somente depois da publicação.
