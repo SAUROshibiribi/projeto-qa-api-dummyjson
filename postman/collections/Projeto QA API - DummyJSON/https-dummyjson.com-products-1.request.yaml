@@ -1,0 +1,48 @@
+$kind: http-request
+name: https://dummyjson.com/products/1
+description: ""
+url: https://dummyjson.com/products/1
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"O produto possui o ID esperado\", function () {\r
+
+      \    const produto = pm.response.json();\r
+
+      \    pm.expect(produto.id).to.eql(1);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"A resposta possui status HTTP 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"O produto possui um título válido\", function () {\r
+
+      \    const produto = pm.response.json();\r
+
+      \    pm.expect(produto.title).to.be.a(\"string\");\r
+
+      \    pm.expect(produto.title.trim().length).to.be.above(0);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"O preço é um número não negativo\", function () {\r
+
+      \    const produto = pm.response.json();\r
+
+      \    pm.expect(produto.price).to.be.a(\"number\");\r
+
+      \    pm.expect(produto.price).to.be.at.least(0);\r
+
+      });"
+    language: text/javascript
+order: 2000

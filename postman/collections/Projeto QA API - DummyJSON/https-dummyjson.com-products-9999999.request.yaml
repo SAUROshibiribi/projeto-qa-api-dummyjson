@@ -1,0 +1,24 @@
+$kind: http-request
+name: https://dummyjson.com/products/9999999
+description: ""
+url: https://dummyjson.com/products/9999999
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"A API retorna status HTTP 404\", function () {\r
+
+      \    pm.response.to.have.status(404);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"A API informa que o produto não foi encontrado\", function () {\r
+
+      \    const resposta = pm.response.json();\r
+
+      \    pm.expect(resposta.message).to.include(\"not found\");\r
+
+      });"
+    language: text/javascript
+order: 4000

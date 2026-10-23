@@ -1,0 +1,91 @@
+$kind: http-request
+name: https://dummyjson.com/products
+description: ""
+url: https://dummyjson.com/products
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"A API retorna status HTTP 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"A resposta contém uma lista de produtos\", function () {\r
+
+      \    const resposta = pm.response.json();\r
+
+      \r
+
+      \    pm.expect(resposta.products).to.be.an(\"array\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"A lista contém pelo menos um produto\", function () {\r
+
+      \    const resposta = pm.response.json();\r
+
+      \r
+
+      \    pm.expect(resposta.products.length).to.be.above(0);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Os produtos possuem identificadores numéricos\", function () {\r
+
+      \    const resposta = pm.response.json();\r
+
+      \r
+
+      \    resposta.products.forEach(function (produto) {\r
+
+      \        pm.expect(produto.id).to.be.a(\"number\");\r
+
+      \    });\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Os preços dos produtos são números não negativos\", function ()
+      {\r
+
+      \    const resposta = pm.response.json();\r
+
+      \r
+
+      \    resposta.products.forEach(function (produto) {\r
+
+      \        pm.expect(produto.price).to.be.a(\"number\");\r
+
+      \        pm.expect(produto.price).to.be.at.least(0);\r
+
+      \    });\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Os produtos possuem títulos válidos\", function () {\r
+
+      \    const resposta = pm.response.json();\r
+
+      \r
+
+      \    resposta.products.forEach(function (produto) {\r
+
+      \        pm.expect(produto.title).to.be.a(\"string\");\r
+
+      \        pm.expect(produto.title.trim().length).to.be.above(0);\r
+
+      \    });\r
+
+      });"
+    language: text/javascript
+order: 321
