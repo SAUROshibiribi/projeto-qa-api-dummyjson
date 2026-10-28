@@ -1,5 +1,4 @@
 $kind: http-request
-name: https://dummyjson.com/products/1
 description: ""
 url: https://dummyjson.com/products/1
 method: GET

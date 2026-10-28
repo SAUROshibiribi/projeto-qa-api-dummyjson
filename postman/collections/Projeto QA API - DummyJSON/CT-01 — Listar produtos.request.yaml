@@ -1,5 +1,4 @@
 $kind: http-request
-name: https://dummyjson.com/products
 description: ""
 url: https://dummyjson.com/products
 method: GET
@@ -53,8 +52,7 @@ scripts:
 
       \r
 
-      pm.test(\"Os preços dos produtos são números não negativos\", function ()
-      {\r
+      pm.test(\"Os preços dos produtos são números não negativos\", function () {\r
 
       \    const resposta = pm.response.json();\r
 

@@ -1,0 +1,34 @@
+$kind: http-request
+url: https://dummyjson.com/products/search?q=xyzxyzxyz
+method: GET
+queryParams:
+  q: xyzxyzxyz
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Tempo de resposta abaixo de 1000 ms\", function () {\r
+
+      \    pm.expect(pm.response.responseTime).to.be.below(1000);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Status 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Busca sem resultado retorna lista vazia\", function () {\r
+
+      \    const r = pm.response.json();\r
+
+      \    pm.expect(r.products).to.have.lengthOf(0);\r
+
+      \    pm.expect(r.total).to.eql(0);\r
+
+      });"
+    language: text/javascript
+order: 8000

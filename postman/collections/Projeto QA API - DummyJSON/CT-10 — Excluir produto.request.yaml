@@ -1,0 +1,30 @@
+$kind: http-request
+url: https://dummyjson.com/products/1
+method: DELETE
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Tempo de resposta abaixo de 1000 ms\", function () {\r
+
+      \    pm.expect(pm.response.responseTime).to.be.below(1000);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Status 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Produto marcado como excluído\", function () {\r
+
+      \    const r = pm.response.json();\r
+
+      \    pm.expect(r.isDeleted).to.eql(true);\r
+
+      });"
+    language: text/javascript
+order: 11000

@@ -1,7 +1,6 @@
 $kind: http-request
-name: https://dummyjson.com/products/9999999
 description: ""
-url: https://dummyjson.com/products/9999999
+url: https://dummyjson.com/products/abc
 method: GET
 scripts:
   - type: afterResponse
@@ -13,12 +12,14 @@ scripts:
 
       \r
 
-      pm.test(\"A API informa que o produto não foi encontrado\", function () {\r
+      pm.test(\"A mensagem informa que o produto não foi encontrado\", function () {\r
 
       \    const resposta = pm.response.json();\r
+
+      \r
 
       \    pm.expect(resposta.message).to.include(\"not found\");\r
 
       });"
     language: text/javascript
-order: 4000
+order: 5000

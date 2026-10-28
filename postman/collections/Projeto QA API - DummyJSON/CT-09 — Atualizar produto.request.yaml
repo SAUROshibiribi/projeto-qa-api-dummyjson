@@ -1,0 +1,37 @@
+$kind: http-request
+url: https://dummyjson.com/products/1
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \  \"title\": \"Título atualizado QA\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Tempo de resposta abaixo de 1000 ms\", function () {\r
+
+      \    pm.expect(pm.response.responseTime).to.be.below(1000);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Status 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Título atualizado na resposta\", function () {\r
+
+      \    const r = pm.response.json();\r
+
+      \    pm.expect(r.title).to.eql(\"Título atualizado QA\");\r
+
+      });"
+    language: text/javascript
+order: 10000

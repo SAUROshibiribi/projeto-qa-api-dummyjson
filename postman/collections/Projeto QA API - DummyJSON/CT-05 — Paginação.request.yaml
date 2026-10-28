@@ -1,0 +1,45 @@
+$kind: http-request
+url: https://dummyjson.com/products?limit=5&skip=10
+method: GET
+queryParams:
+  limit: "5"
+  skip: "10"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Tempo de resposta abaixo de 1000 ms\", function () {\r
+
+      \    pm.expect(pm.response.responseTime).to.be.below(1000);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Status 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Retorna exatamente 5 produtos\", function () {\r
+
+      \    const r = pm.response.json();\r
+
+      \    pm.expect(r.products).to.have.lengthOf(5);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"limit e skip refletem os parâmetros enviados\", function () {\r
+
+      \    const r = pm.response.json();\r
+
+      \    pm.expect(r.limit).to.eql(5);\r
+
+      \    pm.expect(r.skip).to.eql(10);\r
+
+      });"
+    language: text/javascript
+order: 6000

@@ -1,49 +1,105 @@
-# Projeto de testes de API — DummyJSON
+# Projeto de QA — Testes de API (DummyJSON)
 
-Projeto de portfólio para praticar testes de API com Postman. O foco é validar respostas HTTP e campos importantes do JSON em consultas de produtos, incluindo cenários positivos e negativos.
+> **PT-BR** | [English summary](#english-summary)
 
-## Escopo
+Projeto de portfólio para praticar o ciclo básico de QA em uma API pública: planejar casos de teste, executar testes manuais e automatizados, medir desempenho e registrar problemas de forma organizada.
 
-- API pública: https://dummyjson.com
-- Recurso: produtos
-- Ferramenta: Postman
-- Coleção: Projeto QA API - DummyJSON
-- Requisições: 4
+## Objetivo
+
+Exercitar as atividades de um(a) estagiário(a) de QA: entender o comportamento esperado, projetar casos de teste, automatizar verificações, relatar observações com clareza e acompanhar o trabalho em um quadro Kanban.
+
+## Ferramentas
+
+| Ferramenta | Uso neste projeto |
+|---|---|
+| Postman / Postman CLI | Coleção de testes de API com verificações automatizadas |
+| K6 | Teste de carga leve (smoke/load) |
+| Jira (Kanban) | Gestão dos casos de teste e registro de observações |
+| GitHub | Versionamento e documentação |
+
+API testada: <https://dummyjson.com> (recurso: `products`). É uma API pública de demonstração, então os testes de carga são propositalmente leves.
+
+## Status do projeto
+
+- [x] CT-01 a CT-04: consultas (positivas e negativas) automatizadas no Postman
+- [x] CT-05 a CT-10: paginação, busca, criação, atualização e exclusão
+- [x] Teste de tempo de resposta incluído nos CT-05 a CT-10 (meta < 1000 ms)
+- [x] Script K6 executado e resultado documentado em `k6/README.md` e `docs/evidencias/k6-resumo.json`
+- [x] Quadro Kanban no Jira com os casos de teste
+- [x] Observação OBS-01 registrada no Jira
+- [x] Evidências (prints) adicionadas em `docs/evidencias/`
+
+
+
+## Resultados (execução de 27/10/2026)
+
+- 10 casos de teste, com 33 verificações automatizadas aprovadas no Postman (0 erros).
+- Teste de carga leve no K6: 5 usuários virtuais por 30 s, 208 requisições, 0% de falhas e p(95) de 471 ms.
+- 1 observação registrada no Jira (OBS-01), ainda em aberto.
 
 ## Casos de teste
 
-| ID | Cenário | Verificações principais | Status observado | Testes aprovados |
-|---|---|---|---:|---:|
-| CT-01 | GET /products — listar produtos | Status 200; products é uma lista não vazia; IDs numéricos; preços numéricos e não negativos; títulos válidos | 200 | 6 |
-| CT-02 | GET /products/1 — consultar produto existente | Status 200; ID igual a 1; título válido; preço numérico e não negativo | 200 | 4 |
-| CT-03 | GET /products/9999999 — consultar ID inexistente | Status 404; mensagem contém "not found" | 404 | 2 |
-| CT-04 | GET /products/abc — consultar ID não numérico | Status 404; mensagem contém "not found" | 404 | 2 |
+A lista completa está em [docs/casos-de-teste.md](docs/casos-de-teste.md). Detalhamento de exemplo: [CT-03](docs/CT-03-produto-inexistente.md).
 
-O caso CT-03 tem uma descrição detalhada em [docs/CT-03-produto-inexistente.md](docs/CT-03-produto-inexistente.md).
+## Como reproduzir
 
-## Resultados das execuções
-
-- Na captura inicial do Collection Runner, foram registrados 14 testes aprovados, 0 reprovados e 0 ignorados.
-- Em 23/10/2026, executei novamente a cópia da coleção incluída neste projeto usando Postman CLI 1.75.0: 4 requisições, 14 verificações aprovadas e 0 reprovadas.
-- Os status recebidos nessa nova execução foram 200, 200, 404 e 404, na ordem dos casos CT-01 a CT-04.
-
-Nos cenários CT-03 e CT-04, o status 404 é esperado. Os testes passam porque verificam esse status e se a mensagem da resposta contém "not found".
-
-## Reproduzir a execução local
-
-Com o Postman CLI instalado, execute a partir da pasta raiz do projeto:
+**Postman CLI** (a partir da raiz do projeto):
 
     postman collection run "postman/collections/Projeto QA API - DummyJSON" --no-report-events
 
-O parâmetro no final evita enviar os resultados desta execução ao Postman Cloud.
+**K6** (a partir da raiz do projeto):
 
-## Coleção do Postman
+    k6 run k6/load-test.js
 
-Os arquivos locais da coleção estão incluídos em postman/collections/Projeto QA API - DummyJSON. A coleção usa o formato YAML nativo do Postman Collection v3 e contém quatro arquivos de requisição e a pasta .resources. Mantenha todos esses arquivos juntos.
+Detalhes e interpretação dos resultados em [k6/README.md](k6/README.md).
+
+## Gestão no Jira
+
+Como os casos foram organizados no quadro Kanban: [docs/kanban-jira.md](docs/kanban-jira.md).
+
+## Observações e bugs
+
+Registro em [docs/relatorio-de-bugs.md](docs/relatorio-de-bugs.md).
 
 ## Evidências
-A captura do Collection Runner foi salva localmente, conforme informado, mas não está incluída no commit atual. Os resultados também foram reproduzidos pelo Postman CLI e estão documentados acima.
+
+**Execução da coleção no Postman (33 verificações aprovadas):**
+
+![Resultado do Collection Runner](docs/evidencias/postman-runner.png)
+
+**Quadro Kanban no Jira:**
+
+![Quadro Kanban](docs/evidencias/jira-kanban.png)
+
+Também em [docs/evidencias/](docs/evidencias/): o card da observação OBS-01 e o resumo do K6 em JSON.
+
+## O que aprendi
+
+- Aprendi a transformar cenários de uso em casos de teste positivos e negativos, definindo o resultado esperado antes de executar.
+- Aprendi a validar tanto o status HTTP quanto os campos importantes do JSON, e a automatizar essas verificações no Postman.
+- Entendi que uma resposta `404` pode ser válida em um cenário negativo, desde que corresponda ao comportamento esperado para aquele caso.
+- Aprendi a interpretar um teste leve de carga no K6 usando falhas, verificações e percentil 95, sem confundir um pico isolado com o limite aplicado ao p95.
+- Pratiquei acompanhar os casos e registrar uma observação no Jira, mantendo evidências e resultados documentados.
+- Antes deste projeto eu não tinha contato prático com testes de software. Minha maior dificuldade foi aprender a usar o Postman, mas repetindo o processo a cada caso de teste ficou mais natural.
+
+## Próximos passos
+
+- Aprender **Cypress** para testes automatizados de interface (E2E).
+- Explorar variáveis de ambiente no Postman (ex.: `baseUrl`).
+- Estudar estratégias de teste em Scrum (critérios de aceite e Definition of Done).
 
 ## Limites
 
-Este exercício cobre validações básicas de respostas HTTP e JSON nos quatro cenários descritos. Os resultados registrados são de execuções específicas; uma nova execução pode variar se a API estiver indisponível ou mudar.
+Projeto de estudo. Cobre validações básicas de resposta HTTP e JSON em um único recurso de uma API de demonstração. Resultados refletem execuções específicas e podem variar se a API mudar ou estiver indisponível.
+
+---
+
+## English summary
+
+Portfolio project practicing the basic QA cycle on a public API (DummyJSON): test case design, automated API checks with Postman, a light load test with K6, and issue tracking on a Jira Kanban board.
+
+- **Scope:** `products` endpoints (list, get by id, pagination, search, create, update, delete), including negative scenarios (non-existent and non-numeric IDs).
+- **Run API tests:** `postman collection run "postman/collections/Projeto QA API - DummyJSON" --no-report-events`
+- **Run load test:** `k6 run k6/load-test.js` (kept intentionally light because it targets a public demo API).
+- **Findings:** logged in [docs/relatorio-de-bugs.md](docs/relatorio-de-bugs.md).
+- **Next steps:** learn Cypress for UI test automation.
